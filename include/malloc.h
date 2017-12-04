@@ -21,18 +21,34 @@
 # define FALSE 0
 
 # define TINY 100
-# define MEDIUM 1000
+# define SMALL 1000
 
 # define ALLOCATIONS_PER_SIZE 100
 
+// Thanks to flenge for the idea
+
+typedef struct s_map_info {
+  t_list  *pointing_to_myself;
+  size_t  allocations;
+} t_map_info;
+
+typedef struct s_alloc_info {
+  t_list  *pointing_to_myself;
+  size_t  size;
+  t_map_info *map_of_this_allocation;
+} t_alloc_info;
+
 typedef struct s_env_info {
+  t_list *maps;
+  t_list *allocations;
+  void *next_available_location;
+  void *end_location;
   size_t env_size;
-  char   *nothing;
 } t_env_info;
 
 typedef struct s_malloc_info {
   t_env_info tiny;
-  t_env_info medium;
+  t_env_info small;
   // large
 } t_malloc_info;
 

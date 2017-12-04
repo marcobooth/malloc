@@ -2,6 +2,11 @@
 #include <unistd.h>
 
 int main() {
-	write(1, "1", 1);
-	// malloc(11);
+	malloc(11);
+	malloc(11);
+	malloc(13);
+	malloc(144);
+	malloc(1810);
+	malloc(12);
+	malloc(120);
 }
