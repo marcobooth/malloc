@@ -28,12 +28,12 @@
 // Thanks to flenge for the idea
 
 typedef struct s_map_info {
-  t_list  *pointing_to_myself;
+  t_list  list;
   size_t  allocations;
 } t_map_info;
 
 typedef struct s_alloc_info {
-  t_list  *pointing_to_myself;
+  t_list  list;
   size_t  size;
   t_map_info *map_of_this_allocation;
 } t_alloc_info;
@@ -43,6 +43,7 @@ typedef struct s_env_info {
   t_list *allocations;
   void *next_available_location;
   void *end_location;
+  t_map_info *current_map;
   size_t env_size;
 } t_env_info;
 
@@ -55,5 +56,6 @@ typedef struct s_malloc_info {
 extern t_malloc_info *g_malloc_info;
 
 void				*malloc(size_t size);
+void        show_alloc_mem();
 
 #endif
