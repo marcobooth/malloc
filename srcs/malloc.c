@@ -146,11 +146,3 @@ void *malloc(size_t size) {
 
   return (memory);
 }
-
-// printf("\nNumber: %zu\n", env_info->env_size);
-// printf("Size of thing %zu\n", sizeof(t_map_info));
-// printf("next: %p\n", map);
-// printf("next: %p\n", env_info->next_available_location);
-// printf("%p\n", env_info->end_location);
-// printf("current: %p\n", map);
-// printf("next: %p\n", env_info->next_available_location);

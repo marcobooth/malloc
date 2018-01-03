@@ -20,8 +20,8 @@
 # define TRUE 1
 # define FALSE 0
 
-# define TINY 500
-# define SMALL 450
+# define TINY 100
+# define SMALL 5000
 
 # define ALLOCATIONS_PER_SIZE 100
 
