@@ -20,8 +20,8 @@
 # define TRUE 1
 # define FALSE 0
 
-# define TINY 100
-# define SMALL 1000
+# define TINY 500
+# define SMALL 450
 
 # define ALLOCATIONS_PER_SIZE 100
 
@@ -50,7 +50,7 @@ typedef struct s_env_info {
 typedef struct s_malloc_info {
   t_env_info tiny;
   t_env_info small;
-  // large
+  t_list *large_maps;
 } t_malloc_info;
 
 extern t_malloc_info *g_malloc_info;

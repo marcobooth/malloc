@@ -32,6 +32,18 @@ t_malloc_info *set_up_environment() {
     // printf("g_malloc_info: %p\n", g_malloc_info);
     // printf("g_malloc_info->tiny: %p\n", &g_malloc_info->tiny);
     // printf("g_malloc_info->small: %p\n", &g_malloc_info->small);
+		ft_putstr("Size of the environments: ");
+		ft_putnbr(g_malloc_info->tiny.env_size);
+		ft_putstr("\n");
+		ft_putnbr(g_malloc_info->small.env_size);
+		ft_putstr("\n");
+		ft_putnbr(sizeof(t_malloc_info));
+		ft_putstr("\n");
+		ft_putstr("SOMETHING DIFFERENT\n");
+		ft_putnbr(TINY);
+		ft_putstr("\n");
+		ft_putnbr(SMALL);
+		ft_putstr("\n");
   }
 
   return (g_malloc_info);
@@ -51,12 +63,18 @@ void		list_push_back(t_list **begin_list, void *data, t_list *new_one)
   }
 }
 
-// t_list		*ft_list_find_end(t_list *list)
-// {
-// 	if (list->next == NULL)
-// 		return (list);
-// 	return (ft_list_find_end(list->next));
-// }
+void *large(size_t size, t_list **large_maps) {
+	void *map;
+	t_alloc_info *alloc_info;
+
+	map = get_mmap(size + sizeof(t_alloc_info));
+
+	alloc_info = (t_alloc_info*)map;
+	alloc_info->size = size;
+	// TEO: how exactly does alloc_info->list get initialised (and to the same address as the memory)
+	list_push_back(large_maps, NULL, &alloc_info->list);
+	return (map + sizeof(t_alloc_info));
+}
 
 void *tiny_or_small(size_t size, t_env_info *env_info) {
   void *map;
@@ -99,12 +117,14 @@ void *tiny_or_small(size_t size, t_env_info *env_info) {
                                       + size;
 	list_push_back(&env_info->allocations, &alloc_info->list, &alloc_info->list);
 	env_info->current_map->allocations += 1;
-  ft_putstr("New allocation");
-  print_pointer(alloc_info);
-  ft_putstr("\n");
+  // ft_putstr("New allocation");
+  // print_pointer(alloc_info);
+  // ft_putstr("\n");
 
   return new_memory;
 }
+
+
 
 void *malloc(size_t size) {
   t_malloc_info *env;
@@ -116,12 +136,13 @@ void *malloc(size_t size) {
   } else if (size < SMALL) {
     memory = tiny_or_small(size, &env->small);
   } else {
-  	memory = get_mmap(size);
+  	memory = large(size, &env->large_maps);
   }
 
-	ft_putstr("malloced pointer: ");
-	print_pointer(memory);
-	ft_putstr("\n");
+	// ft_putstr("malloced pointer: ");
+	// print_pointer(memory);
+	// ft_putnbr(size);
+	// ft_putstr("\n");
 
   return (memory);
 }
