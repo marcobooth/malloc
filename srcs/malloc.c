@@ -32,18 +32,6 @@ t_malloc_info *set_up_environment() {
     // printf("g_malloc_info: %p\n", g_malloc_info);
     // printf("g_malloc_info->tiny: %p\n", &g_malloc_info->tiny);
     // printf("g_malloc_info->small: %p\n", &g_malloc_info->small);
-		ft_putstr("Size of the environments: ");
-		ft_putnbr(g_malloc_info->tiny.env_size);
-		ft_putstr("\n");
-		ft_putnbr(g_malloc_info->small.env_size);
-		ft_putstr("\n");
-		ft_putnbr(sizeof(t_malloc_info));
-		ft_putstr("\n");
-		ft_putstr("SOMETHING DIFFERENT\n");
-		ft_putnbr(TINY);
-		ft_putstr("\n");
-		ft_putnbr(SMALL);
-		ft_putstr("\n");
   }
 
   return (g_malloc_info);

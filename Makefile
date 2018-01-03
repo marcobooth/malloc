@@ -40,7 +40,7 @@ $(NAME): $(OBJ)
 
 clean:
 	make clean -C libft/
-	@-/bin/rm -f $(COMPILED)
+	@-/bin/rm -f $(OBJ)
 	@echo "cleaned" $(NAME)
 
 fclean: clean
