@@ -23,6 +23,7 @@ void *get_mmap(size_t size) {
 }
 
 t_malloc_info *set_up_environment() {
+	// multiple of getpagesize()
   if (g_malloc_info == NULL) {
     g_malloc_info = get_mmap(sizeof(t_malloc_info));
     ft_bzero(g_malloc_info, sizeof(t_malloc_info));
@@ -57,23 +58,6 @@ void		list_push_back(t_list **begin_list, void *data, t_list *new_one)
 // 	return (ft_list_find_end(list->next));
 // }
 
-void      show_alloc_mem() {
-  t_map_info *a;
-  printf("\n Maps \n");
-  printf("TINY\n");
-  if (g_malloc_info->tiny.allocations == NULL) {
-    ft_putstr("equal to NULL, returning\n");
-    return;
-  }
-  // ft_putstr("not returning\n");
-  a = (t_map_info*)g_malloc_info->tiny.allocations;
-  while (a != NULL) {
-    ft_putnbr(a->allocations);
-    ft_putstr("allocated\n");
-    a = (t_map_info*)a->list.next;
-  }
-}
-
 void *tiny_or_small(size_t size, t_env_info *env_info) {
   void *map;
   void *new_memory;
@@ -103,60 +87,41 @@ void *tiny_or_small(size_t size, t_env_info *env_info) {
       // printf("env_info->maps: %p\n", env_info->maps);
       // printf("env_info->current_map: %p\n", env_info->current_map);
       // printf("env_info->current_map->list: %p\n", (void *)&env_info->current_map->list);
-      // env_info->current_map->allocations = 0;
+      env_info->current_map->allocations = 0;
   }
 
   alloc_info = (t_alloc_info*)env_info->next_available_location;
-  list_push_back(&env_info->allocations, &alloc_info->list, &alloc_info->list);
   alloc_info->size = size;
   alloc_info->map_of_this_allocation = env_info->current_map;
   new_memory = env_info->next_available_location + sizeof(t_alloc_info);
   env_info->next_available_location = env_info->next_available_location
                                       + sizeof(t_alloc_info)
                                       + size;
-  // return env_info->next_available_location;
+	list_push_back(&env_info->allocations, &alloc_info->list, &alloc_info->list);
+	env_info->current_map->allocations += 1;
+  ft_putstr("New allocation");
+  print_pointer(alloc_info);
+  ft_putstr("\n");
+
   return new_memory;
-}
-
-int   compare_pointers(void *p1, void *p2) {
-  if (p1 == p2) {
-    return (TRUE);
-  }
-
-  return (FALSE);
-}
-
-void       free(void *ptr) {
-  t_alloc_info *allocation;
-
-  allocation = (t_alloc_info*)ft_list_find(g_malloc_info->tiny.allocations, ptr, &compare_pointers);
-  if (allocation == NULL) {
-    // ft_putstr("\n equals NULL \n");
-  } else {
-    ft_putstr("\nnot equal to NULL - ");
-    ft_putnbr(allocation->size);
-    ft_putstr(" bytes \n");
-  }
-
 }
 
 void *malloc(size_t size) {
   t_malloc_info *env;
   void          *memory;
 
-
   env = set_up_environment();
   if (size < TINY) {
-    // ft_putstr("I am in tiny");
-    ft_putnbr(size);
-    ft_putstr(" bytes\n");
-    return tiny_or_small(size, &env->tiny);
+    memory = tiny_or_small(size, &env->tiny);
+  } else if (size < SMALL) {
+    memory = tiny_or_small(size, &env->small);
+  } else {
+  	memory = get_mmap(size);
   }
-  // else if (size < SMALL) {
-  //   memory = tiny_or_small(size, env->small);
-  // } else {
-  memory = get_mmap(size);
-  // }
+
+	ft_putstr("malloced pointer: ");
+	print_pointer(memory);
+	ft_putstr("\n");
 
   return (memory);
 }

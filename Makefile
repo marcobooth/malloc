@@ -20,7 +20,9 @@ INC = -I include -I libft/
 LIB = -L $(LIBFT) -lft
 LIBFT = 			libft
 
-SRCS = srcs/malloc.c
+SRCS = srcs/malloc.c \
+			 srcs/free.c \
+			 srcs/utilities.c
 
 OBJ = $(SRCS:.c=.o)
 

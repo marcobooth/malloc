@@ -18,22 +18,49 @@ int hex_to_ascii(char c, char d){
 	return high+low;
 }
 
+void print_pointer(void *ptr) {
+	int i;
+  uintmax_t b;
+	char pointer_address[13] = "0123456789012";
+
+  b = (uintmax_t)ptr;
+
+	i = 11;
+	while (i >= 0) {
+		if ((b % 16) < 10)
+			pointer_address[i] = '0' + (b % 16);
+		else
+			pointer_address[i] = 'a' + ((b % 16) - 10);
+		b /= 16;
+		i--;
+	}
+	pointer_address[12] = '\0';
+	ft_putstr("0x");
+	ft_putstr(pointer_address);
+	ft_putstr("\n");
+}
+
+int   compare_pointers(void *p1, void *p2) {
+  ft_putstr("p1: ");
+  print_pointer(p1);
+  ft_putstr("p2: ");
+  print_pointer(p2);
+  if (p1 == p2) {
+    return (TRUE);
+  }
+
+  return (FALSE);
+}
+
 int main(void)
 {
 	int a;
-	uintmax_t b;
+	int b;
+	void *hello;
 
-	b = (uintmax_t)&a;
-	uintptr_t uip = (uintptr_t) ((void*) &a);
-	printf("address of a = 0x%"PRIXPTR, uip);
+	hello = &a;
+	a = compare_pointers(hello, &b);
+	// print_pointer(hello);
+	printf("Returned value: %i\n", a);
 	ft_putstr("\n");
-	int i;
-	i = 0;
-	while (i < 5) {
-		ft_putnbr(b % 16);
-		ft_putstr(".");
-		b /= 16;
-		i++;
-	}
-	ft_putstr("finished this thing");
 }
