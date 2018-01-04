@@ -3,3 +3,7 @@ libft_malloc*
 *.o
 a.out
 *.a
+test0
+test1
+test2
+test3
