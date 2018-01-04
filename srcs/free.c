@@ -3,19 +3,23 @@
 int					list_remove_node(t_list **original, t_list *to_remove)
 {
 	t_list				*old_one;
+	int						i;
 
 	if (original && *original && to_remove)
 	{
 		if (*original == to_remove)
 		{
-      ft_putstr("-------------REMOVING NODE---------------\n");
+      // ft_putstr("-------------REMOVING NODE---------------\n");
 			old_one = *original;
 			*original = (*original)->next;
-      print_pointer(to_remove);
-      ft_putstr("size of pointer: ");
+      // print_pointer(to_remove);
+      // ft_putstr("size of pointer: ");
       ft_putnbr(((t_alloc_info*)to_remove)->size);
       ft_putstr("\n");
-      munmap(to_remove, ((t_alloc_info*)to_remove)->size);
+      i = munmap(to_remove, ((t_alloc_info*)to_remove)->size + sizeof(t_alloc_info));
+			ft_putstr("Munmap: ");
+			ft_putnbr(i);
+			ft_putstr("\n");
       return(TRUE);
 		}
 		else
