@@ -14,12 +14,12 @@ int					list_remove_node(t_list **original, t_list *to_remove)
 			*original = (*original)->next;
       // print_pointer(to_remove);
       // ft_putstr("size of pointer: ");
-      ft_putnbr(((t_alloc_info*)to_remove)->size);
-      ft_putstr("\n");
+      // ft_putnbr(((t_alloc_info*)to_remove)->size);
+      // ft_putstr("\n");
       i = munmap(to_remove, ((t_alloc_info*)to_remove)->size + sizeof(t_alloc_info));
-			ft_putstr("Munmap: ");
-			ft_putnbr(i);
-			ft_putstr("\n");
+			// ft_putstr("Munmap: ");
+			// ft_putnbr(i);
+			// ft_putstr("\n");
       return(TRUE);
 		}
 		else

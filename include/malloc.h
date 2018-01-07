@@ -21,7 +21,7 @@
 # define FALSE 0
 
 # define TINY 200
-# define SMALL 1024
+# define SMALL 3000
 
 # define ALLOCATIONS_PER_SIZE 100
 
