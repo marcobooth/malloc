@@ -28,7 +28,7 @@ t_malloc_info *set_up_environment() {
     g_malloc_info = get_mmap(sizeof(t_malloc_info));
     ft_bzero(g_malloc_info, sizeof(t_malloc_info));
     g_malloc_info->tiny.env_size = (100 * (TINY + sizeof(t_alloc_info))) + sizeof(t_map_info); // + room for the info
-    g_malloc_info->small.env_size = ((SMALL + sizeof(t_alloc_info))) + sizeof(t_map_info); // + room for the info
+    g_malloc_info->small.env_size = (100 * (SMALL + sizeof(t_alloc_info))) + sizeof(t_map_info); // + room for the info
     // printf("g_malloc_info: %p\n", g_malloc_info);
     // printf("g_malloc_info->tiny: %p\n", &g_malloc_info->tiny);
     // printf("g_malloc_info->small: %p\n", &g_malloc_info->small);

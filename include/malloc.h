@@ -58,6 +58,7 @@ extern t_malloc_info *g_malloc_info;
 void				*malloc(size_t size);
 void        show_alloc_mem();
 void        free(void *ptr);
+void       *realloc(void *ptr, size_t size);
 void        print_pointer(void *ptr);
 
 #endif
