@@ -23,7 +23,8 @@ LIBFT = 			libft
 SRCS = srcs/malloc.c \
 			 srcs/free.c \
 			 srcs/utilities.c \
-			 srcs/realloc.c
+			 srcs/realloc.c \
+			 srcs/show_alloc_mem.c
 
 OBJ = $(SRCS:.c=.o)
 
