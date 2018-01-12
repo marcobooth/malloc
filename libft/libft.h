@@ -22,7 +22,6 @@
 # include <fcntl.h>
 # include <limits.h>
 
-
 # define BUFF_SIZE 1000
 
 int				get_next_line(int const fd, char **line);
@@ -85,7 +84,6 @@ int				ft_ptrequ(const void *first, const void *second);
 char			*ft_strrev(char const *str_to_be_reversed);
 double			ft_abs_double(double number);
 int				ft_is_valid_int(char *string);
-
 
 typedef struct	s_list
 {
