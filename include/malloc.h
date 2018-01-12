@@ -58,10 +58,12 @@ extern t_malloc_info *g_malloc_info;
 void				*malloc(size_t size);
 void        show_alloc_mem();
 void        free(void *ptr);
-void       *realloc(void *ptr, size_t size);
+void        *realloc(void *ptr, size_t size);
 void        print_pointer(void *ptr);
 void        print_list(t_list *list);
-void		list_push_back(t_list **begin_list, void *data, t_list *new_one);
-void *get_mmap(size_t size);
+void		    list_push_back(t_list **begin_list, void *data, t_list *new_one);
+void        *get_mmap(size_t size);
+void        *reallocf(void *ptr, size_t size);
+void				*reallocate_pointer(t_list **original, t_list *to_reallocate, size_t size);
 
 #endif

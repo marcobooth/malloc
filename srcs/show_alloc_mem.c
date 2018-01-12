@@ -49,7 +49,7 @@ void      show_alloc_mem() {
 	if (g_malloc_info->small.maps != NULL)
 		print_maps(g_malloc_info->small.maps, g_malloc_info->small.env_size, "SMALL maps:\n");
 	if (g_malloc_info->small.allocations != NULL)
-		print_allocations(g_malloc_info->small.allocations, "SMALL allocations");
+		print_allocations(g_malloc_info->small.allocations, "SMALL allocations:\n");
 	if (g_malloc_info->large_maps != NULL)
-		print_allocations(g_malloc_info->large_maps, "LARGE allocations");
+		print_allocations(g_malloc_info->large_maps, "LARGE allocations:\n");
 }

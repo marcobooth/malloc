@@ -24,7 +24,8 @@ SRCS = srcs/malloc.c \
 			 srcs/free.c \
 			 srcs/utilities.c \
 			 srcs/realloc.c \
-			 srcs/show_alloc_mem.c
+			 srcs/show_alloc_mem.c \
+			 srcs/bonus.c
 
 OBJ = $(SRCS:.c=.o)
 
