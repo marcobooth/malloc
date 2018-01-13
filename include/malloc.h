@@ -13,9 +13,9 @@
 #ifndef MALLOC_H
 # define MALLOC_H
 
-# include <stdio.h>
 # include <sys/mman.h>
 # include "libft.h"
+# include <pthread.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -55,7 +55,8 @@ typedef struct	s_malloc_info {
 	t_list		*large_maps;
 }				t_malloc_info;
 
-extern t_malloc_info *g_malloc_info;
+extern t_malloc_info	*g_malloc_info;
+extern pthread_mutex_t	g_mutex_count;
 
 void			*malloc(size_t size);
 void			show_alloc_mem();
@@ -69,5 +70,7 @@ void			*get_mmap(size_t size);
 void			*reallocf(void *ptr, size_t size);
 void			*reallocate_pointer(t_list **original,
 						t_list *to_reallocate, size_t size);
+void			*locked_malloc(size_t size);
+void			locked_free(void *ptr);
 
 #endif

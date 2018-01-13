@@ -67,7 +67,7 @@ int		deallocate_pointer(t_list **original,
 	return (FALSE);
 }
 
-void	free(void *ptr)
+void	locked_free(void *ptr)
 {
 	int pointer_freed;
 
@@ -84,4 +84,11 @@ void	free(void *ptr)
 	if (pointer_freed == FALSE)
 		pointer_freed = deallocate_pointer(&g_malloc_info->large_maps,
 										ptr, NULL);
+}
+
+void	free(void *ptr)
+{
+	pthread_mutex_lock(&g_mutex_count);
+	locked_free(ptr);
+	pthread_mutex_unlock(&g_mutex_count);
 }

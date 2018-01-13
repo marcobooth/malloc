@@ -12,7 +12,19 @@
 
 #include "malloc.h"
 
-t_malloc_info *g_malloc_info = NULL;
+/*
+**	For understanding threads, this was pretty helpful:
+**	https://www.ibm.com/developerworks/library/l-pthred/index.html#sidebar2
+**	does it stop them going into another malloc or another anything
+*/
+
+t_malloc_info	*g_malloc_info = NULL;
+
+/*
+**	if this is called from another file, could it be NULL?
+*/
+
+pthread_mutex_t	g_mutex_count = PTHREAD_MUTEX_INITIALIZER;
 
 /*
 **  multiple of getpagesize()
@@ -85,7 +97,7 @@ void			*tiny_or_small(size_t size, t_env_info *env_info)
 	return (new_memory);
 }
 
-void			*malloc(size_t size)
+void			*locked_malloc(size_t size)
 {
 	t_malloc_info	*env;
 	void			*memory;
@@ -100,4 +112,14 @@ void			*malloc(size_t size)
 	else
 		memory = large(size, &env->large_maps);
 	return (memory);
+}
+
+void			*malloc(size_t size)
+{
+	void	*address;
+
+	pthread_mutex_lock(&g_mutex_count);
+	address = locked_malloc(size);
+	pthread_mutex_unlock(&g_mutex_count);
+	return (address);
 }

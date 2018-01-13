@@ -63,6 +63,7 @@ void	print_allocations(t_list *allocations, char *title)
 
 void	show_alloc_mem(void)
 {
+	pthread_mutex_lock(&g_mutex_count);
 	if (g_malloc_info == NULL)
 		return ;
 	ft_putstr("---------- SHOW ALLOCATED MEMORY ----------\n");
@@ -81,4 +82,5 @@ void	show_alloc_mem(void)
 	if (g_malloc_info->large_maps != NULL)
 		print_allocations(g_malloc_info->large_maps,
 							"LARGE allocations:\n");
+	pthread_mutex_unlock(&g_mutex_count);
 }

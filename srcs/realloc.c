@@ -29,12 +29,12 @@ void	*reallocate_pointer(t_list **original,
 		if (*original == to_reallocate)
 		{
 			*original = (*original)->next;
-			new_pointer = malloc(size);
+			new_pointer = locked_malloc(size);
 			alloc_info = (t_alloc_info*)to_reallocate;
 			ft_memcpy(new_pointer,
 						(void*)to_reallocate + sizeof(t_alloc_info),
 						alloc_info->size <= size ? alloc_info->size : size);
-			free(to_reallocate);
+			locked_free(to_reallocate);
 			return (new_pointer);
 		}
 		else
@@ -49,14 +49,14 @@ void	*reallocate_pointer(t_list **original,
 **	behaves like the malloc function for the specified size
 */
 
-void	*realloc(void *ptr, size_t size)
+void	*locked_realloc(void *ptr, size_t size)
 {
 	void *reallocated_pointer;
 
 	if (g_malloc_info == NULL)
 		return (NULL);
 	if (ptr == NULL)
-		return (malloc(size));
+		return (locked_malloc(size));
 	ptr = ptr - sizeof(t_alloc_info);
 	reallocated_pointer = reallocate_pointer(&g_malloc_info->tiny.allocations,
 							ptr, size);
@@ -67,5 +67,15 @@ void	*realloc(void *ptr, size_t size)
 	if (reallocated_pointer == NULL)
 		reallocated_pointer = reallocate_pointer(&g_malloc_info->large_maps,
 							ptr, size);
+	return (reallocated_pointer);
+}
+
+void	*realloc(void *ptr, size_t size)
+{
+	void *reallocated_pointer;
+
+	pthread_mutex_lock(&g_mutex_count);
+	reallocated_pointer = locked_realloc(ptr, size);
+	pthread_mutex_unlock(&g_mutex_count);
 	return (reallocated_pointer);
 }
