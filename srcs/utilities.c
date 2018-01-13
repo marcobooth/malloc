@@ -27,7 +27,7 @@ void	*get_mmap(size_t size)
 }
 
 /*
-** printf("next: %p\n", env_info->next_available_location);
+** printf("next: %p\n", env_info->next_location);
 ** only using this as a list of addresses
 */
 

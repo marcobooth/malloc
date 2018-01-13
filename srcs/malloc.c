@@ -62,23 +62,22 @@ void			*tiny_or_small(size_t size, t_env_info *env_info)
 	void			*new_memory;
 	t_alloc_info	*alloc_info;
 
-	if (!env_info->next_available_location ||
-		!(env_info->next_available_location
-		+ sizeof(t_map_info) + size < env_info->end_location))
+	if (!env_info->next_location || !(env_info->next_location +
+		sizeof(t_map_info) + size < env_info->end_location))
 	{
 		map = get_mmap(env_info->env_size);
-		env_info->next_available_location = map + sizeof(t_map_info);
+		env_info->next_location = map + sizeof(t_map_info);
 		env_info->end_location = map + env_info->env_size;
 		env_info->current_map = (t_map_info*)map;
 		list_push_back((t_list**)&env_info->maps, NULL,
 						&env_info->current_map->list);
 		env_info->current_map->allocations = 0;
 	}
-	alloc_info = (t_alloc_info*)env_info->next_available_location;
+	alloc_info = (t_alloc_info*)env_info->next_location;
 	alloc_info->size = size;
 	alloc_info->map_of_this_allocation = env_info->current_map;
-	new_memory = env_info->next_available_location + sizeof(t_alloc_info);
-	env_info->next_available_location = env_info->next_available_location
+	new_memory = env_info->next_location + sizeof(t_alloc_info);
+	env_info->next_location = env_info->next_location
 										+ sizeof(t_alloc_info) + size;
 	list_push_back(&env_info->allocations, &alloc_info->list,
 						&alloc_info->list);

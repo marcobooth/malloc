@@ -30,7 +30,7 @@ void	deallocate_tiny_or_small(t_env_info *env, t_alloc_info *alloc_info)
 	{
 		if (alloc_info->map_of_this_allocation == (t_map_info*)env->current_map)
 		{
-			env->next_available_location = (void*)env->current_map
+			env->next_location = (void*)env->current_map
 													+ sizeof(t_map_info);
 		}
 		else
