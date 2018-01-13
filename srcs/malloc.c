@@ -27,21 +27,33 @@ t_malloc_info	*g_malloc_info = NULL;
 pthread_mutex_t	g_mutex_count = PTHREAD_MUTEX_INITIALIZER;
 
 /*
-**  multiple of getpagesize()
+**  mmap returns multiple of getpagesize so important
+**	env_size is a multiple of it (or just not a waste)
 */
 
 t_malloc_info	*set_up_environment(void)
 {
+	int	pagesize;
+
 	if (g_malloc_info == NULL)
 	{
 		g_malloc_info = get_mmap(sizeof(t_malloc_info));
 		ft_bzero(g_malloc_info, sizeof(t_malloc_info));
+		pagesize = getpagesize();
 		g_malloc_info->tiny.env_size = (100 *
 										(TINY + sizeof(t_alloc_info)))
 										+ sizeof(t_map_info);
 		g_malloc_info->small.env_size = (100 *
 										(SMALL + sizeof(t_alloc_info)))
 										+ sizeof(t_map_info);
+		g_malloc_info->tiny.env_size -=
+							(g_malloc_info->tiny.env_size % pagesize);
+		g_malloc_info->small.env_size -=
+							(g_malloc_info->small.env_size % pagesize);
+		ft_putnbr(g_malloc_info->tiny.env_size);
+		ft_putstr("\n");
+		ft_putnbr(g_malloc_info->small.env_size);
+		ft_putstr("\n");
 	}
 	return (g_malloc_info);
 }

@@ -62,7 +62,7 @@ void	print_pointer(void *ptr)
 {
 	int			i;
 	uintmax_t	b;
-	char		pointer_address[13] = "0123456789012";
+	char		pointer_address[13];
 
 	b = (uintmax_t)ptr;
 	i = 11;
