@@ -23,8 +23,6 @@
 # define TINY 300
 # define SMALL 3000
 
-# define ALLOCATIONS_PER_SIZE 100
-
 /*
 **	Thanks to flenge for the idea
 */

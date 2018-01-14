@@ -39,16 +39,16 @@ t_malloc_info	*set_up_environment(void)
 		g_malloc_info = get_mmap(sizeof(t_malloc_info));
 		ft_bzero(g_malloc_info, sizeof(t_malloc_info));
 		pagesize = getpagesize();
-		g_malloc_info->tiny.env_size = (ALLOCATIONS_PER_SIZE *
+		g_malloc_info->tiny.env_size = (100 *
 										(TINY + sizeof(t_alloc_info)))
 										+ sizeof(t_map_info);
-		g_malloc_info->small.env_size = (ALLOCATIONS_PER_SIZE *
+		g_malloc_info->small.env_size = (100 *
 										(SMALL + sizeof(t_alloc_info)))
 										+ sizeof(t_map_info);
 		g_malloc_info->tiny.env_size +=
-							(pagesize - (g_malloc_info->tiny.env_size % pagesize));
+					(pagesize - (g_malloc_info->tiny.env_size % pagesize));
 		g_malloc_info->small.env_size +=
-							(pagesize - (g_malloc_info->small.env_size % pagesize));
+					(pagesize - (g_malloc_info->small.env_size % pagesize));
 	}
 	return (g_malloc_info);
 }
