@@ -15,7 +15,6 @@
 /*
 **	For understanding threads, this was pretty helpful:
 **	https://www.ibm.com/developerworks/library/l-pthred/index.html#sidebar2
-**	does it stop them going into another malloc or another anything
 */
 
 t_malloc_info	*g_malloc_info = NULL;
@@ -40,20 +39,16 @@ t_malloc_info	*set_up_environment(void)
 		g_malloc_info = get_mmap(sizeof(t_malloc_info));
 		ft_bzero(g_malloc_info, sizeof(t_malloc_info));
 		pagesize = getpagesize();
-		g_malloc_info->tiny.env_size = (100 *
+		g_malloc_info->tiny.env_size = (ALLOCATIONS_PER_SIZE *
 										(TINY + sizeof(t_alloc_info)))
 										+ sizeof(t_map_info);
-		g_malloc_info->small.env_size = (100 *
+		g_malloc_info->small.env_size = (ALLOCATIONS_PER_SIZE *
 										(SMALL + sizeof(t_alloc_info)))
 										+ sizeof(t_map_info);
-		g_malloc_info->tiny.env_size -=
-							(g_malloc_info->tiny.env_size % pagesize);
-		g_malloc_info->small.env_size -=
-							(g_malloc_info->small.env_size % pagesize);
-		ft_putnbr(g_malloc_info->tiny.env_size);
-		ft_putstr("\n");
-		ft_putnbr(g_malloc_info->small.env_size);
-		ft_putstr("\n");
+		g_malloc_info->tiny.env_size +=
+							(pagesize - (g_malloc_info->tiny.env_size % pagesize));
+		g_malloc_info->small.env_size +=
+							(pagesize - (g_malloc_info->small.env_size % pagesize));
 	}
 	return (g_malloc_info);
 }
