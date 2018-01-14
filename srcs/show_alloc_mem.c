@@ -64,8 +64,10 @@ void	print_allocations(t_list *allocations, char *title)
 void	show_alloc_mem(void)
 {
 	pthread_mutex_lock(&g_mutex_count);
-	if (g_malloc_info == NULL)
+	if (g_malloc_info == NULL) {
+		pthread_mutex_unlock(&g_mutex_count);
 		return ;
+	}
 	ft_putstr("---------- SHOW ALLOCATED MEMORY ----------\n");
 	if (g_malloc_info->tiny.maps != NULL)
 		print_maps(g_malloc_info->tiny.maps,

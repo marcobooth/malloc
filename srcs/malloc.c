@@ -88,12 +88,13 @@ void			*tiny_or_small(size_t size, t_env_info *env_info)
 		env_info->next_location = map + sizeof(t_map_info);
 		env_info->end_location = map + env_info->env_size;
 		env_info->current_map = (t_map_info*)map;
-		list_push_back((t_list**)&env_info->maps, NULL,
+		list_push_back(&env_info->maps, NULL,
 						&env_info->current_map->list);
 		env_info->current_map->allocations = 0;
 	}
 	alloc_info = (t_alloc_info*)env_info->next_location;
 	alloc_info->size = size;
+	// alloc_info->list = (t_list*)alloc_info;
 	alloc_info->map_of_this_allocation = env_info->current_map;
 	new_memory = env_info->next_location + sizeof(t_alloc_info);
 	env_info->next_location = env_info->next_location

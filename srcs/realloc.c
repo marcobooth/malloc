@@ -34,7 +34,7 @@ void	*reallocate_pointer(t_list **original,
 			ft_memcpy(new_pointer,
 						(void*)to_reallocate + sizeof(t_alloc_info),
 						alloc_info->size <= size ? alloc_info->size : size);
-			locked_free(to_reallocate);
+			locked_free((void*)to_reallocate + sizeof(t_alloc_info));
 			return (new_pointer);
 		}
 		else
@@ -53,10 +53,10 @@ void	*locked_realloc(void *ptr, size_t size)
 {
 	void *reallocated_pointer;
 
-	if (g_malloc_info == NULL)
-		return (NULL);
 	if (ptr == NULL)
 		return (locked_malloc(size));
+	if (g_malloc_info == NULL)
+		return (NULL);
 	ptr = ptr - sizeof(t_alloc_info);
 	reallocated_pointer = reallocate_pointer(&g_malloc_info->tiny.allocations,
 							ptr, size);
@@ -72,6 +72,9 @@ void	*locked_realloc(void *ptr, size_t size)
 
 void	*realloc(void *ptr, size_t size)
 {
+	ft_putstr("\nrealloc:");
+	print_pointer(ptr);
+	ft_putstr("\n");
 	void *reallocated_pointer;
 
 	pthread_mutex_lock(&g_mutex_count);
