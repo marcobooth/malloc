@@ -63,8 +63,10 @@ static void	print_allocations(t_list *allocations, char *title)
 
 void		show_alloc_mem(void)
 {
-	if (g_malloc_info == NULL)
+	if (g_malloc_info == NULL) {
+		ft_putstr("No memory has been allocated\n");
 		return ;
+	}
 	pthread_mutex_lock(&g_mutex_count);
 	ft_putstr("---------- SHOW ALLOCATED MEMORY ----------\n");
 	if (g_malloc_info->tiny.maps != NULL)
