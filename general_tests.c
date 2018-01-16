@@ -188,12 +188,12 @@ int            main(void)
     ft_putstr("getpagesize: ");
     put_size_t(getpagesize());
     ft_putstr("\n");
-    // try_every_size_up_to(3200, 8);
-    // alloc_and_free(400, 250);
-    // alloc_and_free(400, 2500);
-    // alloc_and_free(400, 4096);
+    try_every_size_up_to(3200, 8);
+    alloc_and_free(400, 250);
+    alloc_and_free(400, 2500);
+    alloc_and_free(400, 4096);
     growing_realloc(20, 8);
-    // free_as_you_go(1024, 1024);
+    free_as_you_go(1024, 1024);
 
     // TODO: free as you go with 0, all sizes
 }

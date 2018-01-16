@@ -29,6 +29,8 @@ static void	*reallocate_pointer(t_list **original,
 		if (*original == to_reallocate)
 		{
 			new_pointer = locked_malloc(size);
+			if (new_pointer == NULL)
+				return (NULL);
 			alloc_info = (t_alloc_info*)to_reallocate;
 			ft_memcpy(new_pointer,
 						(void*)to_reallocate + sizeof(t_alloc_info),

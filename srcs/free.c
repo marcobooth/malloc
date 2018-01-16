@@ -50,11 +50,6 @@ static int	deallocate_pointer(t_list **original,
 {
 	t_alloc_info	*alloc_info;
 
-	ft_putstr("\nchecking original and to remove:");
-	print_pointer(*original);
-	ft_putstr(" ");
-	print_pointer(to_remove);
-	ft_putstr("\n");
 	if (!original || !(*original) || !to_remove)
 		return (FALSE);
 	if (*original == to_remove)
@@ -63,10 +58,8 @@ static int	deallocate_pointer(t_list **original,
 		alloc_info = (t_alloc_info*)to_remove;
 		if (env == NULL)
 			munmap(to_remove, alloc_info->size);
-		else {
-			ft_putstr("\nthis is getting called\n");
+		else
 			deallocate_tiny_or_small(env, alloc_info);
-		}
 		return (TRUE);
 	}
 	else
@@ -76,9 +69,6 @@ static int	deallocate_pointer(t_list **original,
 
 void		locked_free(void *ptr)
 {
-	ft_putstr("\nlocked_free:");
-	print_pointer(ptr);
-	ft_putstr("\n");
 	int pointer_freed;
 
 	if (g_malloc_info == NULL || ptr == NULL)
@@ -86,8 +76,6 @@ void		locked_free(void *ptr)
 		return ;
 	}
 	ptr = ptr - sizeof(t_alloc_info);
-	ft_putstr("\nabout to print the list\n");
-	print_list(g_malloc_info->tiny.allocations);
 	pointer_freed = deallocate_pointer(&g_malloc_info->tiny.allocations,
 								ptr, &g_malloc_info->tiny);
 	if (pointer_freed == FALSE)
@@ -96,9 +84,6 @@ void		locked_free(void *ptr)
 	if (pointer_freed == FALSE)
 		pointer_freed = deallocate_pointer(&g_malloc_info->large_maps,
 										ptr, NULL);
-	ft_putstr("\ndid the pointer free? ");
-	ft_putnbr(pointer_freed);
-	ft_putstr("\n");
 }
 
 void		free(void *ptr)
