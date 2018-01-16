@@ -30,7 +30,7 @@ pthread_mutex_t	g_mutex_count = PTHREAD_MUTEX_INITIALIZER;
 **	env_size is a multiple of it (or just not a waste)
 */
 
-t_malloc_info	*set_up_environment(void)
+static t_malloc_info	*set_up_environment(void)
 {
 	int	pagesize;
 
@@ -58,7 +58,7 @@ t_malloc_info	*set_up_environment(void)
 **	(and to the same address as the memory)
 */
 
-void			*large(size_t size, t_list **large_maps)
+static void				*large(size_t size, t_list **large_maps)
 {
 	void			*map;
 	t_alloc_info	*alloc_info;
@@ -75,7 +75,7 @@ void			*large(size_t size, t_list **large_maps)
 **	why doesn't this need to be set??
 */
 
-void			*tiny_or_small(size_t size, t_env_info *env_info)
+static void				*tiny_or_small(size_t size, t_env_info *env_info)
 {
 	void			*map;
 	void			*new_memory;
@@ -105,7 +105,7 @@ void			*tiny_or_small(size_t size, t_env_info *env_info)
 	return (new_memory);
 }
 
-void			*locked_malloc(size_t size)
+void					*locked_malloc(size_t size)
 {
 	t_malloc_info	*env;
 	void			*memory;
@@ -122,7 +122,7 @@ void			*locked_malloc(size_t size)
 	return (memory);
 }
 
-void			*malloc(size_t size)
+void					*malloc(size_t size)
 {
 	void	*address;
 

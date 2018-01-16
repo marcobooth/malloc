@@ -17,7 +17,7 @@
 **	the old object is not deallocated and its value is unchanged.
 */
 
-void	*reallocate_pointer(t_list **original,
+static void	*reallocate_pointer(t_list **original,
 							t_list *to_reallocate,
 							size_t size)
 {
@@ -28,7 +28,7 @@ void	*reallocate_pointer(t_list **original,
 	{
 		if (*original == to_reallocate)
 		{
-			*original = (*original)->next;
+			// *original = (*original)->next;
 			new_pointer = locked_malloc(size);
 			alloc_info = (t_alloc_info*)to_reallocate;
 			ft_memcpy(new_pointer,
@@ -49,7 +49,7 @@ void	*reallocate_pointer(t_list **original,
 **	behaves like the malloc function for the specified size
 */
 
-void	*locked_realloc(void *ptr, size_t size)
+void		*locked_realloc(void *ptr, size_t size)
 {
 	void *reallocated_pointer;
 
@@ -70,11 +70,8 @@ void	*locked_realloc(void *ptr, size_t size)
 	return (reallocated_pointer);
 }
 
-void	*realloc(void *ptr, size_t size)
+void		*realloc(void *ptr, size_t size)
 {
-	ft_putstr("\nrealloc:");
-	print_pointer(ptr);
-	ft_putstr("\n");
 	void *reallocated_pointer;
 
 	pthread_mutex_lock(&g_mutex_count);

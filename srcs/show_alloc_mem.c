@@ -12,7 +12,7 @@
 
 #include "malloc.h"
 
-void	print_maps(t_list *maps, size_t map_size, char *title)
+static void	print_maps(t_list *maps, size_t map_size, char *title)
 {
 	t_map_info *map_info;
 
@@ -36,7 +36,7 @@ void	print_maps(t_list *maps, size_t map_size, char *title)
 **	or add to void pointer
 */
 
-void	print_allocations(t_list *allocations, char *title)
+static void	print_allocations(t_list *allocations, char *title)
 {
 	t_alloc_info *alloc_info;
 
@@ -61,13 +61,11 @@ void	print_allocations(t_list *allocations, char *title)
 **	make a difference using the direct value?
 */
 
-void	show_alloc_mem(void)
+void		show_alloc_mem(void)
 {
-	pthread_mutex_lock(&g_mutex_count);
-	if (g_malloc_info == NULL) {
-		pthread_mutex_unlock(&g_mutex_count);
+	if (g_malloc_info == NULL)
 		return ;
-	}
+	pthread_mutex_lock(&g_mutex_count);
 	ft_putstr("---------- SHOW ALLOCATED MEMORY ----------\n");
 	if (g_malloc_info->tiny.maps != NULL)
 		print_maps(g_malloc_info->tiny.maps,
