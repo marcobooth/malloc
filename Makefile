@@ -29,7 +29,7 @@ SRCS = srcs/malloc.c \
 
 OBJ = $(SRCS:.c=.o)
 
-CC = gcc -Wall -Wextra -Werror -g
+CC = gcc -Wall -Wextra -Werror
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(INC)

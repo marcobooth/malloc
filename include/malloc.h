@@ -20,8 +20,12 @@
 # define TRUE 1
 # define FALSE 0
 
-# define TINY 300
-# define SMALL 3000
+/*
+**	SMALL is the same as pagesize (on current system)
+*/
+
+# define TINY 512
+# define SMALL 4096
 
 /*
 **	Thanks to flenge for the idea
@@ -66,9 +70,10 @@ void			list_push_back(t_list **begin_list,
 								void *data, t_list *new_one);
 void			*get_mmap(size_t size);
 void			*reallocf(void *ptr, size_t size);
-void			*reallocate_pointer(t_list **original,
-						t_list *to_reallocate, size_t size);
 void			*locked_malloc(size_t size);
 void			locked_free(void *ptr);
+void			*locked_realloc(void *ptr, size_t size);
+void			*calloc(size_t count, size_t size);
+void			*reallocf(void *pointer, size_t size);
 
 #endif

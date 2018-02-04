@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC=clang
+CC=clang -g
 CFLAGS=-I includes/ -Wall -Werror -Wextra
 NAME=libft.a
 SRC=ft_list_size.c\

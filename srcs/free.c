@@ -12,7 +12,7 @@
 
 #include "malloc.h"
 
-void	list_remove(t_list **original, t_list *to_remove)
+static void	list_remove(t_list **original, t_list *to_remove)
 {
 	if (original && *original && to_remove)
 	{
@@ -23,7 +23,7 @@ void	list_remove(t_list **original, t_list *to_remove)
 	}
 }
 
-void	deallocate_tiny_or_small(t_env_info *env, t_alloc_info *alloc_info)
+static void	deallocate_tiny_or_small(t_env_info *env, t_alloc_info *alloc_info)
 {
 	alloc_info->map_of_this_allocation->allocations -= 1;
 	if (alloc_info->map_of_this_allocation->allocations == 0)
@@ -35,8 +35,8 @@ void	deallocate_tiny_or_small(t_env_info *env, t_alloc_info *alloc_info)
 		}
 		else
 		{
-			munmap(alloc_info->map_of_this_allocation, env->env_size);
 			list_remove(&env->maps, (void*)alloc_info->map_of_this_allocation);
+			munmap(alloc_info->map_of_this_allocation, env->env_size);
 		}
 	}
 }
@@ -45,7 +45,7 @@ void	deallocate_tiny_or_small(t_env_info *env, t_alloc_info *alloc_info)
 ** if env == NULL is for large maps
 */
 
-int		deallocate_pointer(t_list **original,
+static int	deallocate_pointer(t_list **original,
 						t_list *to_remove, t_env_info *env)
 {
 	t_alloc_info	*alloc_info;
@@ -67,7 +67,7 @@ int		deallocate_pointer(t_list **original,
 	return (FALSE);
 }
 
-void	locked_free(void *ptr)
+void		locked_free(void *ptr)
 {
 	int pointer_freed;
 
@@ -86,7 +86,7 @@ void	locked_free(void *ptr)
 										ptr, NULL);
 }
 
-void	free(void *ptr)
+void		free(void *ptr)
 {
 	pthread_mutex_lock(&g_mutex_count);
 	locked_free(ptr);

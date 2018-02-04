@@ -17,7 +17,7 @@
 **	the old object is not deallocated and its value is unchanged.
 */
 
-void	*reallocate_pointer(t_list **original,
+static void	*reallocate_pointer(t_list **original,
 							t_list *to_reallocate,
 							size_t size)
 {
@@ -28,13 +28,14 @@ void	*reallocate_pointer(t_list **original,
 	{
 		if (*original == to_reallocate)
 		{
-			*original = (*original)->next;
 			new_pointer = locked_malloc(size);
+			if (new_pointer == NULL)
+				return (NULL);
 			alloc_info = (t_alloc_info*)to_reallocate;
 			ft_memcpy(new_pointer,
 						(void*)to_reallocate + sizeof(t_alloc_info),
 						alloc_info->size <= size ? alloc_info->size : size);
-			locked_free(to_reallocate);
+			locked_free((void*)to_reallocate + sizeof(t_alloc_info));
 			return (new_pointer);
 		}
 		else
@@ -49,14 +50,14 @@ void	*reallocate_pointer(t_list **original,
 **	behaves like the malloc function for the specified size
 */
 
-void	*locked_realloc(void *ptr, size_t size)
+void		*locked_realloc(void *ptr, size_t size)
 {
 	void *reallocated_pointer;
 
-	if (g_malloc_info == NULL)
-		return (NULL);
 	if (ptr == NULL)
 		return (locked_malloc(size));
+	if (g_malloc_info == NULL)
+		return (NULL);
 	ptr = ptr - sizeof(t_alloc_info);
 	reallocated_pointer = reallocate_pointer(&g_malloc_info->tiny.allocations,
 							ptr, size);
@@ -70,7 +71,7 @@ void	*locked_realloc(void *ptr, size_t size)
 	return (reallocated_pointer);
 }
 
-void	*realloc(void *ptr, size_t size)
+void		*realloc(void *ptr, size_t size)
 {
 	void *reallocated_pointer;
 

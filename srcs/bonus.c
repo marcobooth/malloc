@@ -21,10 +21,12 @@ void	*calloc(size_t count, size_t size)
 {
 	void *pointer;
 
+	pthread_mutex_lock(&g_mutex_count);
 	if (size == 0 || count == 0)
 		return (NULL);
-	pointer = malloc(count * size);
+	pointer = locked_malloc(count * size);
 	ft_bzero(pointer, size);
+	pthread_mutex_unlock(&g_mutex_count);
 	return (pointer);
 }
 
@@ -35,22 +37,12 @@ void	*calloc(size_t count, size_t size)
 
 void	*reallocf(void *pointer, size_t size)
 {
-	void *realloc_ed;
+	void *reallocated_pointer;
 
-	if (g_malloc_info == NULL)
-		return (NULL);
-	if (pointer == NULL)
-		return (malloc(size));
-	pointer = pointer - sizeof(t_alloc_info);
-	realloc_ed = reallocate_pointer(&g_malloc_info->tiny.allocations,
-													pointer, size);
-	if (realloc_ed == NULL)
-		realloc_ed = reallocate_pointer(&g_malloc_info->small.allocations,
-													pointer, size);
-	if (realloc_ed == NULL)
-		realloc_ed = reallocate_pointer(&g_malloc_info->large_maps,
-													pointer, size);
-	if (realloc_ed == NULL)
-		free(pointer);
-	return (realloc_ed);
+	pthread_mutex_lock(&g_mutex_count);
+	reallocated_pointer = locked_realloc(pointer, size);
+	if (reallocated_pointer == NULL)
+		locked_free(pointer);
+	pthread_mutex_unlock(&g_mutex_count);
+	return (reallocated_pointer);
 }

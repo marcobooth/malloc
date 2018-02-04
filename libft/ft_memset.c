@@ -3,24 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgauvrit <tgauvrit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbooth <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/04 12:54:38 by tgauvrit          #+#    #+#             */
-/*   Updated: 2014/11/14 17:15:31 by tgauvrit         ###   ########.fr       */
+/*   Created: 2018/02/03 19:17:09 by mbooth            #+#    #+#             */
+/*   Updated: 2018/02/03 19:17:09 by mbooth           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memset(void *b, int c, size_t len)
+void			*ft_memset(void *destination, int int_value, size_t len)
 {
-	char	*saf_b;
+	size_t			i;
+	unsigned char	*location;
+	unsigned char	value;
 
-	if (!b)
-		return (NULL);
-	saf_b = b;
-	while (len-- > 0)
-		saf_b[len] = c;
-	saf_b[len] = c;
-	return (b);
+	value = (unsigned char)int_value;
+	location = (unsigned char*)destination;
+	i = 0;
+	while (i < len)
+	{
+		location[i] = value;
+		i++;
+	}
+	return (destination);
 }
