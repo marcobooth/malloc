@@ -63,7 +63,8 @@ static void	print_allocations(t_list *allocations, char *title)
 
 void		show_alloc_mem(void)
 {
-	if (g_malloc_info == NULL) {
+	if (g_malloc_info == NULL)
+	{
 		ft_putstr("No memory has been allocated\n");
 		return ;
 	}
