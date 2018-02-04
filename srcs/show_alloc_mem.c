@@ -22,7 +22,7 @@ static void	print_maps(t_list *maps, size_t map_size, char *title)
 	{
 		print_pointer(map_info);
 		ft_putstr(" - ");
-		print_pointer(map_info + map_size);
+		print_pointer((void*)map_info + map_size);
 		ft_putstr(" (");
 		ft_putnbr(map_info->allocations);
 		ft_putstr(" allocation)\n");
