@@ -81,8 +81,8 @@ static void				*tiny_or_small(size_t size, t_env_info *env_info)
 	void			*new_memory;
 	t_alloc_info	*alloc_info;
 
-	if (!env_info->next_location || !(env_info->next_location +
-		sizeof(t_map_info) + size < env_info->end_location))
+	if (!env_info->next_location || env_info->next_location +
+		sizeof(t_alloc_info) + size >= env_info->end_location)
 	{
 		map = get_mmap(env_info->env_size);
 		env_info->next_location = map + sizeof(t_map_info);
